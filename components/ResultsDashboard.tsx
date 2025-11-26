@@ -343,7 +343,7 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ data, onReset }) =>
               </div>
             `).join('')}
           </div>
-          <div class="text-center text-xs text-slate-400 mt-10">Generado por PRD Estimator AI</div>
+          <div class="text-center text-xs text-slate-400 mt-10">Generado por EstimIA</div>
         </div>
       </body>
       </html>
