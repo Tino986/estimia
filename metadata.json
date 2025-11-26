@@ -1,0 +1,5 @@
+{
+  "name": "Estimador de Costos PRD con IA",
+  "description": "Herramienta inteligente que analiza Documentos de Requisitos de Producto (PRD) para estimar costos de desarrollo, tiempos y recursos necesarios.",
+  "requestFramePermissions": []
+}
