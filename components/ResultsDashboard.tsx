@@ -622,37 +622,40 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ data, onReset }) =>
                  </div>
 
                  {data.roadmap.map((item, idx) => {
-                   // Calculations for percentage based positioning
-                   // Start Index (0-based) = startWeek - 1
-                   // Duration = endWeek - startWeek + 1
-                   
-                   // Percentage from left edge of grid area
-                   const leftPercent = ((item.startWeek - 1) / maxDuration) * 100;
-                   const widthPercent = ((item.endWeek - item.startWeek + 1) / maxDuration) * 100;
+                    // CORRECCIÓN: Aseguramos que startWeek nunca sea menor a 1 para evitar negativos
+                    const validStartWeek = Math.max(1, item.startWeek);
+                    
+                    // Calculamos el porcentaje desde el borde izquierdo del área de tiempo
+                    const leftPercent = ((validStartWeek - 1) / maxDuration) * 100;
+                    
+                    // Calculamos el ancho basado en la duración real
+                    const duration = (item.endWeek - validStartWeek) + 1;
+                    const widthPercent = (duration / maxDuration) * 100;
 
-                   return (
-                    <div key={idx} className="flex items-center relative z-10 h-12 border-b border-slate-50 hover:bg-slate-50 transition-colors">
-                      <div className="w-64 flex-shrink-0 pr-4 pl-2 flex flex-col justify-center border-r border-slate-100 h-full">
-                        <div className="text-sm font-medium text-slate-800 truncate" title={item.phaseName}>{item.phaseName}</div>
-                        <div className="text-[10px] text-slate-500 truncate" title={item.milestone}>🚩 {item.milestone}</div>
-                      </div>
-                      
-                      {/* Bar Container */}
-                      <div className="flex-grow relative h-full">
-                        <div 
-                          className={`absolute top-1/2 -translate-y-1/2 h-7 rounded shadow-sm flex items-center px-2 text-[10px] text-white font-medium whitespace-nowrap overflow-hidden transition-all duration-500
-                            ${idx % 2 === 0 ? 'bg-indigo-500' : 'bg-blue-500'}`}
-                          style={{ 
-                            left: `${leftPercent}%`, 
-                            width: `${widthPercent}%` 
-                          }}
-                        >
-                          {widthPercent > 5 && <span>Sem {item.startWeek}-{item.endWeek}</span>}
-                        </div>
-                      </div>
-                    </div>
-                   );
-                })}
+                    return (
+                     <div key={idx} className="flex items-center relative z-10 h-12 border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                       {/* Columna de Nombre (Fija 64 = 16rem = 256px) */}
+                       <div className="w-64 flex-shrink-0 pr-4 pl-2 flex flex-col justify-center border-r border-slate-100 h-full bg-white relative z-20">
+                         <div className="text-sm font-medium text-slate-800 truncate" title={item.phaseName}>{item.phaseName}</div>
+                         <div className="text-[10px] text-slate-500 truncate" title={item.milestone}>🚩 {item.milestone}</div>
+                       </div>
+                       
+                       {/* Contenedor de la barra (Área flexible) */}
+                       <div className="flex-grow relative h-full">
+                         <div 
+                           className={`absolute top-1/2 -translate-y-1/2 h-7 rounded shadow-sm flex items-center px-2 text-[10px] text-white font-medium whitespace-nowrap overflow-hidden transition-all duration-500
+                             ${idx % 2 === 0 ? 'bg-indigo-500' : 'bg-blue-500'}`}
+                           style={{ 
+                             left: `${leftPercent}%`, 
+                             width: `${widthPercent}%` 
+                           }}
+                         >
+                           {widthPercent > 5 && <span>Sem {item.startWeek}-{item.endWeek}</span>}
+                         </div>
+                       </div>
+                     </div>
+                    );
+                 })}
               </div>
           </div>
         </div>
