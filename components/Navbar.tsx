@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
           <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center gap-2 text-indigo-600">
               <Calculator size={28} />
-              <span className="font-bold text-xl tracking-tight text-slate-900">PRD Estimator AI</span>
+              <span className="font-bold text-xl tracking-tight text-slate-900">EstimIA</span>
             </div>
           </div>
           <div className="flex items-center">
