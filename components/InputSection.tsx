@@ -84,10 +84,10 @@ Diseño: Moderno y amigable.`;
     <div className="max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="text-center mb-10">
         <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight sm:text-5xl mb-4">
-          Estimaciones tempranas impulsadas por IA
+          Estimaciones impulsadas por IA
         </h1>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-          Estimaciones tempranas impulsadas por IA.
+          powered by Google Gemini
         </p>
       </div>
 
