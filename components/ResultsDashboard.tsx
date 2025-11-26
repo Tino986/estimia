@@ -622,48 +622,38 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ data, onReset }) =>
                  </div>
 
                  {data.roadmap.map((item, idx) => {
-                    // 1. LÓGICA BLINDADA
-                    // Si la semana es menor a 1 (ej: 0), forzamos que sea 1 para el cálculo visual
-                    const safeStartWeek = item.startWeek < 1 ? 1 : item.startWeek;
-                    
-                    // 2. CÁLCULO DE POSICIÓN
-                    // (1 - 1) = 0. Esto asegura que empiece en el borde exacto (0%)
-                    let leftPercent = ((safeStartWeek - 1) / maxDuration) * 100;
-                    
-                    // Seguridad extra: Si por algún motivo matemático da negativo, lo volvemos 0
-                    if (leftPercent < 0) leftPercent = 0;
+                   // Defensive Calculation: Ensure startWeek is at least 1 (not 0)
+                   const safeStart = Math.max(1, item.startWeek);
+                   const safeEnd = Math.max(safeStart, item.endWeek);
 
-                    // 3. CÁLCULO DE ANCHO
-                    // Ajustamos la duración para que no se "estire" de más si cortamos el inicio
-                    // Si era sem 0-3 (duración 4), ahora visualmente es sem 1-3 (duración 3)
-                    const effectiveDuration = (item.endWeek - safeStartWeek) + 1;
-                    const widthPercent = (effectiveDuration / maxDuration) * 100;
+                   // Percentage from left edge of grid area
+                   // Start Index (0-based) = safeStart - 1
+                   const leftPercent = ((safeStart - 1) / maxDuration) * 100;
+                   const widthPercent = ((safeEnd - safeStart + 1) / maxDuration) * 100;
 
-                    return (
-                     <div key={idx} className="flex items-center relative z-10 h-12 border-b border-slate-50 hover:bg-slate-50 transition-colors">
-                       {/* Columna de Nombre */}
-                       <div className="w-64 flex-shrink-0 pr-4 pl-2 flex flex-col justify-center border-r border-slate-100 h-full bg-white relative z-20">
-                         <div className="text-sm font-medium text-slate-800 truncate" title={item.phaseName}>{item.phaseName}</div>
-                         <div className="text-[10px] text-slate-500 truncate" title={item.milestone}>🚩 {item.milestone}</div>
-                       </div>
-                       
-                       {/* Contenedor de la barra */}
-                       <div className="flex-grow relative h-full">
-                         <div 
-                           className={`absolute top-1/2 -translate-y-1/2 h-7 rounded shadow-sm flex items-center px-2 text-[10px] text-white font-medium whitespace-nowrap overflow-hidden transition-all duration-500
-                             ${idx % 2 === 0 ? 'bg-indigo-500' : 'bg-blue-500'}`}
-                           style={{ 
-                             left: `${leftPercent}%`, 
-                             width: `${widthPercent}%` 
-                           }}
-                         >
-                           {/* Solo mostramos texto si la barra es lo bastante ancha */}
-                           {widthPercent > 5 && <span>Sem {item.startWeek}-{item.endWeek}</span>}
-                         </div>
-                       </div>
-                     </div>
-                    );
-                 })}
+                   return (
+                    <div key={idx} className="flex items-center relative z-10 h-12 border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                      <div className="w-64 flex-shrink-0 pr-4 pl-2 flex flex-col justify-center border-r border-slate-100 h-full">
+                        <div className="text-sm font-medium text-slate-800 truncate" title={item.phaseName}>{item.phaseName}</div>
+                        <div className="text-[10px] text-slate-500 truncate" title={item.milestone}>🚩 {item.milestone}</div>
+                      </div>
+                      
+                      {/* Bar Container */}
+                      <div className="flex-grow relative h-full">
+                        <div 
+                          className={`absolute top-1/2 -translate-y-1/2 h-7 rounded shadow-sm flex items-center px-2 text-[10px] text-white font-medium whitespace-nowrap overflow-hidden transition-all duration-500
+                            ${idx % 2 === 0 ? 'bg-indigo-500' : 'bg-blue-500'}`}
+                          style={{ 
+                            left: `${leftPercent}%`, 
+                            width: `${widthPercent}%` 
+                          }}
+                        >
+                          {widthPercent > 5 && <span>Sem {safeStart}-{safeEnd}</span>}
+                        </div>
+                      </div>
+                    </div>
+                   );
+                })}
               </div>
           </div>
         </div>
