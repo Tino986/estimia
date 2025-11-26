@@ -87,7 +87,7 @@ Diseño: Moderno y amigable.`;
           Estimador de Costos
         </h1>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-          Define tu equipo, carga tu PRD y obtén un análisis detallado con costos fijos por rol.
+          Estimaciones tempranas impulsadas por IA.
         </p>
       </div>
 
