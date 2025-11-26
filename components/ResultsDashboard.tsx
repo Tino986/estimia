@@ -69,10 +69,6 @@ const PhaseCard: React.FC<{
         </div>
 
         <div className="flex flex-wrap items-center gap-4 text-sm flex-shrink-0">
-           <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100 font-medium">
-              <UserCircle size={14} />
-              {phase.assignedRole}
-            </div>
             <div className="flex flex-col items-end">
               <span className="font-bold text-slate-900">{formatCurrency(dynamicPhaseCost, currency)}</span>
               <span className="text-xs text-slate-500">{phase.estimatedHours} hs</span>
@@ -343,7 +339,7 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ data, onReset }) =>
               </div>
             `).join('')}
           </div>
-          <div class="text-center text-xs text-slate-400 mt-10">Generado por EstimIA</div>
+          <div class="text-center text-xs text-slate-400 mt-10">Generado por PRD Estimator AI</div>
         </div>
       </body>
       </html>
