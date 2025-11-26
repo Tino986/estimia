@@ -43,6 +43,7 @@ export const analyzePRD = async (prdContent: string, metadata: ProjectMetadata):
        - El tiempo total en semanas NO es la suma lineal de horas.
        - DEBES identificar fases que pueden ejecutarse en **PARALELO** (ej. Backend y Frontend pueden avanzar juntos una vez definidos los requisitos).
        - El \`totalEstimatedDurationWeeks\` debe ser determinado por la **RUTA CRÍTICA** (el final de la última fase en el roadmap), considerando el paralelismo.
+       - **IMPORTANTE**: La numeración de semanas comienza en **1**. La primera semana del proyecto es la Semana 1, nunca la Semana 0.
     5. **Consistencia**:
        - La suma de las horas de las tareas de una fase = Horas Totales de la Fase.
        - La suma de los costos de las tareas = Costo Total de la Fase.
@@ -127,7 +128,7 @@ export const analyzePRD = async (prdContent: string, metadata: ProjectMetadata):
           },
           roadmap: {
             type: Type.ARRAY,
-            description: "Planificación de alto nivel con fases paralelas si es posible. startWeek relativo al inicio.",
+            description: "Planificación de alto nivel con fases paralelas si es posible. startWeek relativo al inicio (Mínimo 1). startWeek = 1 significa el inicio del proyecto.",
             items: {
               type: Type.OBJECT,
               properties: {
